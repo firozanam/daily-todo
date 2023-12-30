@@ -35,6 +35,20 @@
       color: #f00;
       cursor: pointer;
     }
+
+    /* Added styles for the border and the delete button */
+    .todo-list {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .delete-btn {
+      background-color: #f00;
+      border: none;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -47,21 +61,21 @@
       </div>
     </div>
     <h3>Incomplete Tasks</h3>
-    <ul class="list-unstyled" id="incomplete-list">
+    <ul class="list-unstyled todo-list" id="incomplete-list">
       <!-- Example task -->
       <li class="todo-item">
         <input type="checkbox" class="todo-check">
         <span class="todo-text">Buy groceries</span>
-        <button class="delete-btn">×</button>
+        <button class="delete-btn">Delete</button>
       </li>
     </ul>
-    <h3>Complete Tasks</h3>
-    <ul class="list-unstyled" id="complete-list">
+    <h3>Completed Tasks</h3> <!-- Changed the title -->
+    <ul class="list-unstyled todo-list" id="complete-list">
       <!-- Example task -->
       <li class="todo-item done">
         <input type="checkbox" class="todo-check" checked>
         <span class="todo-text">Renew car insurance</span>
-        <button class="delete-btn">×</button>
+        <button class="delete-btn">Delete</button>
       </li>
     </ul>
   </div>
@@ -85,7 +99,7 @@
         const todoItem = $("<li></li>").addClass("todo-item");
         const todoCheck = $("<input>").attr("type", "checkbox").addClass("todo-check");
         const todoSpan = $("<span></span>").addClass("todo-text").text(todoText);
-        const deleteBtn = $("<button></button>").addClass("delete-btn").html("×");
+        const deleteBtn = $("<button></button>").addClass("delete-btn").text("Delete");
         // Append the elements to the task
         todoItem.append(todoCheck, todoSpan, deleteBtn);
         // Append the task to the incomplete list
