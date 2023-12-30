@@ -76,7 +76,7 @@
     </div>
     <h3>Incomplete Tasks</h3>
     <!-- Moved the count element under the title and added the text -->
-    <span class="count" id="incomplete-count">Total Tasks: 1</span>
+    <span class="count" id="incomplete-count">Total Tasks: 0</span>
     <ul class="list-unstyled todo-list" id="incomplete-list">
       <!-- Example task -->
       <li class="todo-item">
@@ -87,7 +87,7 @@
     </ul>
     <h3>Completed Tasks</h3> <!-- Changed the title -->
     <!-- Moved the count element under the title and added the text -->
-    <span class="count" id="complete-count">Total Tasks: 1</span>
+    <span class="count" id="complete-count">Total Tasks: 0</span>
     <ul class="list-unstyled todo-list" id="complete-list">
       <!-- Example task -->
       <li class="todo-item done">
@@ -207,6 +207,12 @@
     completeList.on("click", toggleTask); // Click event on the complete list
     incompleteList.on("click", deleteTask); // Click event on the incomplete list
     completeList.on("click", deleteTask); // Click event on the complete list
+
+    // Added code to initialize the counts with the initial tasks
+    incompleteCount = incompleteList.children().length;
+    completeCount = completeList.children().length;
+    incompleteCountEl.text("Total Tasks: " + incompleteCount);
+    completeCountEl.text("Total Tasks: " + completeCount);
   </script>
 </body>
 </html>
