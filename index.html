@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do List App</title>
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">To-do List App</h1>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="task-input" placeholder="Enter a task">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" id="add-button" type="button">Add</button>
+                    </div>
+                </div>
+                <ul class="list-group" id="task-list">
+                    <!-- Tasks will be added here -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery and Bootstrap CDN -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script>
+        // Get the elements from the document
+        const taskInput = document.getElementById("task-input");
+        const addButton = document.getElementById("add-button");
+        const taskList = document.getElementById("task-list");
+
+        // Add a click event listener to the add button
+        addButton.addEventListener("click", function() {
+            // Get the value of the task input
+            const task = taskInput.value;
+
+            // Check if the task is not empty
+            if (task) {
+                // Create a new list item element
+                const listItem = document.createElement("li");
+                listItem.className = "list-group-item";
+
+                // Create a checkbox element
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.className = "mr-2";
+
+                // Create a span element to hold the task text
+                const span = document.createElement("span");
+                span.textContent = task;
+
+                // Create a button element to delete the task
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "btn btn-danger btn-sm float-right";
+                deleteButton.textContent = "Delete";
+
+                // Append the elements to the list item
+                listItem.appendChild(checkbox);
+                listItem.appendChild(span);
+                listItem.appendChild(deleteButton);
+
+                // Append the list item to the task list
+                taskList.appendChild(listItem);
+
+                // Clear the task input value
+                taskInput.value = "";
+
+                // Add a change event listener to the checkbox
+                checkbox.addEventListener("change", function() {
+                    // Check if the checkbox is checked
+                    if (checkbox.checked) {
+                        // Strike through the task text
+                        span.style.textDecoration = "line-through";
+                    } else {
+                        // Remove the strike through
+                        span.style.textDecoration = "none";
+                    }
+                });
+
+                // Add a click event listener to the delete button
+                deleteButton.addEventListener("click", function() {
+                    // Remove the list item from the task list
+                    taskList.removeChild(listItem);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
