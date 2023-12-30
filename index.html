@@ -55,6 +55,14 @@
       font-weight: bold;
       margin-left: 10px;
     }
+
+    /* Modified styles for the count elements */
+    .count {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding-left: 10px;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +75,8 @@
       </div>
     </div>
     <h3>Incomplete Tasks</h3>
+    <!-- Moved the count element under the title and added the text -->
+    <span class="count" id="incomplete-count">Total Tasks: 1</span>
     <ul class="list-unstyled todo-list" id="incomplete-list">
       <!-- Example task -->
       <li class="todo-item">
@@ -75,9 +85,9 @@
         <button class="delete-btn">Delete</button>
       </li>
     </ul>
-    <!-- Added a count element for the incomplete tasks -->
-    <span class="count" id="incomplete-count">1</span>
     <h3>Completed Tasks</h3> <!-- Changed the title -->
+    <!-- Moved the count element under the title and added the text -->
+    <span class="count" id="complete-count">Total Tasks: 1</span>
     <ul class="list-unstyled todo-list" id="complete-list">
       <!-- Example task -->
       <li class="todo-item done">
@@ -86,8 +96,6 @@
         <button class="delete-btn">Delete</button>
       </li>
     </ul>
-    <!-- Added a count element for the complete tasks -->
-    <span class="count" id="complete-count">1</span>
   </div>
   <!-- jQuery CDN -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -124,7 +132,7 @@
         todoInput.val("");
         // Increment the incomplete count and update the display
         incompleteCount++;
-        incompleteCountEl.text(incompleteCount);
+        incompleteCountEl.text("Total Tasks: " + incompleteCount); // Added the text
       }
     }
 
@@ -146,8 +154,8 @@
           incompleteCount--;
           completeCount++;
           // Update the display elements
-          incompleteCountEl.text(incompleteCount);
-          completeCountEl.text(completeCount);
+          incompleteCountEl.text("Total Tasks: " + incompleteCount); // Added the text
+          completeCountEl.text("Total Tasks: " + completeCount); // Added the text
         } else {
           // Remove the done class from the task
           todoItem.removeClass("done");
@@ -157,8 +165,8 @@
           incompleteCount++;
           completeCount--;
           // Update the display elements
-          incompleteCountEl.text(incompleteCount);
-          completeCountEl.text(completeCount);
+          incompleteCountEl.text("Total Tasks: " + incompleteCount); // Added the text
+          completeCountEl.text("Total Tasks: " + completeCount); // Added the text
         }
       }
     }
@@ -176,12 +184,12 @@
           // Decrement the complete count
           completeCount--;
           // Update the display element
-          completeCountEl.text(completeCount);
+          completeCountEl.text("Total Tasks: " + completeCount); // Added the text
         } else {
           // Decrement the incomplete count
           incompleteCount--;
           // Update the display element
-          incompleteCountEl.text(incompleteCount);
+          incompleteCountEl.text("Total Tasks: " + incompleteCount); // Added the text
         }
         // Remove the task from the DOM
         todoItem.remove();
