@@ -1,94 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Todo</title>
-    <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Todo</title>
+  <!-- Bootstrap CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Custom CSS -->
+  <style>
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .todo-item.done .todo-text {
+      text-decoration: line-through;
+      color: #999;
+    }
+
+    .todo-item .todo-text {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+
+    .todo-item .delete-btn {
+      background: none;
+      border: none;
+      color: #f00;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center">Daily Todo</h1>
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" id="task-input" placeholder="Enter a task">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" id="add-button" type="button">Add</button>
-                    </div>
-                </div>
-                <ul class="list-group" id="task-list">
-                    <!-- Tasks will be added here -->
-                </ul>
-            </div>
-        </div>
+  <div class="container">
+    <h1 class="text-center">Daily Todo</h1>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" id="todo-input" placeholder="Enter a new task">
+      <div class="input-group-append">
+        <button class="btn btn-primary" id="add-btn">Add</button>
+      </div>
     </div>
-    <!-- jQuery and Bootstrap CDN -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Custom JavaScript -->
-    <script>
-        // Get the elements from the document
-        const taskInput = document.getElementById("task-input");
-        const addButton = document.getElementById("add-button");
-        const taskList = document.getElementById("task-list");
+    <h3>Incomplete Tasks</h3>
+    <ul class="list-unstyled" id="incomplete-list">
+      <!-- Example task -->
+      <li class="todo-item">
+        <input type="checkbox" class="todo-check">
+        <span class="todo-text">Buy groceries</span>
+        <button class="delete-btn">×</button>
+      </li>
+    </ul>
+    <h3>Complete Tasks</h3>
+    <ul class="list-unstyled" id="complete-list">
+      <!-- Example task -->
+      <li class="todo-item done">
+        <input type="checkbox" class="todo-check" checked>
+        <span class="todo-text">Renew car insurance</span>
+        <button class="delete-btn">×</button>
+      </li>
+    </ul>
+  </div>
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <!-- Custom JS -->
+  <script>
+    // Get the elements
+    const todoInput = $("#todo-input");
+    const addBtn = $("#add-btn");
+    const incompleteList = $("#incomplete-list");
+    const completeList = $("#complete-list");
 
-        // Add a click event listener to the add button
-        addButton.addEventListener("click", function() {
-            // Get the value of the task input
-            const task = taskInput.value;
+    // Add a new task
+    function addTask() {
+      // Get the input value
+      const todoText = todoInput.val().trim();
+      // Check if the input is not empty
+      if (todoText) {
+        // Create a new task element
+        const todoItem = $("<li></li>").addClass("todo-item");
+        const todoCheck = $("<input>").attr("type", "checkbox").addClass("todo-check");
+        const todoSpan = $("<span></span>").addClass("todo-text").text(todoText);
+        const deleteBtn = $("<button></button>").addClass("delete-btn").html("×");
+        // Append the elements to the task
+        todoItem.append(todoCheck, todoSpan, deleteBtn);
+        // Append the task to the incomplete list
+        incompleteList.append(todoItem);
+        // Clear the input value
+        todoInput.val("");
+      }
+    }
 
-            // Check if the task is not empty
-            if (task) {
-                // Create a new list item element
-                const listItem = document.createElement("li");
-                listItem.className = "list-group-item";
+    // Mark a task as complete or incomplete
+    function toggleTask(e) {
+      // Get the clicked element
+      const target = $(e.target);
+      // Check if the element is a checkbox
+      if (target.hasClass("todo-check")) {
+        // Get the task element
+        const todoItem = target.parent();
+        // Check if the checkbox is checked
+        if (target.prop("checked")) {
+          // Add the done class to the task
+          todoItem.addClass("done");
+          // Move the task to the complete list
+          completeList.append(todoItem);
+        } else {
+          // Remove the done class from the task
+          todoItem.removeClass("done");
+          // Move the task to the incomplete list
+          incompleteList.append(todoItem);
+        }
+      }
+    }
 
-                // Create a checkbox element
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.className = "mr-2";
+    // Delete a task
+    function deleteTask(e) {
+      // Get the clicked element
+      const target = $(e.target);
+      // Check if the element is a delete button
+      if (target.hasClass("delete-btn")) {
+        // Get the task element
+        const todoItem = target.parent();
+        // Remove the task from the DOM
+        todoItem.remove();
+      }
+    }
 
-                // Create a span element to hold the task text
-                const span = document.createElement("span");
-                span.textContent = task;
-
-                // Create a button element to delete the task
-                const deleteButton = document.createElement("button");
-                deleteButton.className = "btn btn-danger btn-sm float-right";
-                deleteButton.textContent = "Delete";
-
-                // Append the elements to the list item
-                listItem.appendChild(checkbox);
-                listItem.appendChild(span);
-                listItem.appendChild(deleteButton);
-
-                // Append the list item to the task list
-                taskList.appendChild(listItem);
-
-                // Clear the task input value
-                taskInput.value = "";
-
-                // Add a change event listener to the checkbox
-                checkbox.addEventListener("change", function() {
-                    // Check if the checkbox is checked
-                    if (checkbox.checked) {
-                        // Strike through the task text
-                        span.style.textDecoration = "line-through";
-                    } else {
-                        // Remove the strike through
-                        span.style.textDecoration = "none";
-                    }
-                });
-
-                // Add a click event listener to the delete button
-                deleteButton.addEventListener("click", function() {
-                    // Remove the list item from the task list
-                    taskList.removeChild(listItem);
-                });
-            }
-        });
-    </script>
+    // Add event listeners
+    addBtn.on("click", addTask); // Click event on the add button
+    todoInput.on("keypress", function (e) {
+      if (e.which === 13) {
+        addTask(); // Enter key event on the input field
+      }
+    });
+    incompleteList.on("click", toggleTask); // Click event on the incomplete list
+    completeList.on("click", toggleTask); // Click event on the complete list
+    incompleteList.on("click", deleteTask); // Click event on the incomplete list
+    completeList.on("click", deleteTask); // Click event on the complete list
+  </script>
 </body>
 </html>
